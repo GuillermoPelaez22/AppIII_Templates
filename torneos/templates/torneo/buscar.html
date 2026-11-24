@@ -1,0 +1,40 @@
+{% extends 'principal.html' %}
+
+{% block cabecera %}
+    <h1>Torneos que contienen "{{ texto }}" en el nombre o la descripción</h1>
+{% endblock %}
+
+{% block contenido %}
+    {% for t in torneos %}
+        <h2>{{ t.nombre }}</h2>
+        <p>{{ t.descripcion }}</p>
+        <p>Formato: {{ t.get_formato_display }} · Inicio: {{ t.fecha_inicio|date:"d/m/Y" }}</p>
+        <p>Deporte: {{ t.deporte.nombre }}</p>
+        <p>Organizador: {{ t.organizador.nombre }} ({{ t.organizador.email }})</p>
+
+        <h3>Equipos inscritos</h3>
+        <ul>
+        {% for e in t.equipos.all %}
+            <li>{{ e.nombre }} · capitán: {{ e.capitan.nombre }}</li>
+        {% empty %}
+            <li>Sin equipos inscritos.</li>
+        {% endfor %}
+        </ul>
+
+        <h3>Inscripciones</h3>
+        <ul>
+        {% for i in t.inscripcion_set.all %}
+            <li>
+                {{ i.equipo.nombre }} ({{ i.get_estado_display }})
+                · inscrito el {{ i.fecha_inscripcion|date:"d/m/Y" }}
+                · Observaciones: {{ i.observaciones }}
+            </li>
+        {% empty %}
+            <li>Sin inscripciones.</li>
+        {% endfor %}
+        </ul>
+        <hr>
+    {% empty %}
+        <p>No hay torneos que contengan ese texto.</p>
+    {% endfor %}
+{% endblock %}

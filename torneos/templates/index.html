@@ -1,0 +1,24 @@
+{% extends 'principal.html' %}
+
+{% block cabecera %}
+    <h1>TorneoHub</h1>
+{% endblock %}
+
+{% block contenido %}
+<ul>
+    <li>URL 1: <a href="{% url 'lista_torneos' %}">Lista de torneos</a></li>
+    <li>URL 2: <a href="{% url 'dame_torneo' 1 %}">Detalle del torneo 1</a></li>
+    <li>URL 3: <a href="{% url 'partidos_jugados' 2026 2027 %}">Partidos jugados entre 2026 y 2027</a></li>
+    <li>URL 4: <a href="{% url 'buscar_torneos' 'Copa' %}">Torneos que contienen "Copa"</a></li>
+    <li>URL 5: <a href="{% url 'ultimo_resultado' 1 %}">Último resultado del torneo 1</a></li>
+    <li>URL 6: <a href="{% url 'usuarios_sin_equipo' %}">Usuarios sin equipo</a></li>
+    <li>URL 7: <a href="{% url 'ficha_usuario' 1 %}">Ficha del usuario 1</a></li>
+    <li>URL 8: <a href="{% url 'estadisticas_torneo' 1 %}">Estadísticas del torneo 1</a></li>
+    <li>URL 9: <a href="{% url 'inscripciones_observaciones' 'ella' %}">Inscripciones con "ella" en las observaciones</a></li>
+    <li>URL 10: <a href="{% url 'ultimos_partidos_equipo' 3 %}">Últimos 5 partidos del equipo 3</a></li>
+    <li>Error 400: <a href="{% url 'error_400' %}">Página de error 400</a></li>
+    <li>Error 403: <a href="{% url 'error_403' %}">Página de error 403</a></li>
+    <li>Error 404: <a href="/esta-pagina-no-existe/">Página de error 404</a></li>
+    <li>Error 500: <a href="{% url 'error_500' %}">Página de error 500</a></li>
+</ul>
+{% endblock %}

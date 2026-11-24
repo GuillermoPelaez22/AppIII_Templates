@@ -2,6 +2,15 @@
 <nav class="menu">
     <ul>
         <li><a href="{% url 'index' %}">Inicio</a></li>
-        {# Aquí añadiremos un enlace por cada URL de TorneoHub #}
+        <li><a href="{% url 'lista_torneos' %}">Torneos</a></li>
+        <li><a href="{% url 'dame_torneo' 1 %}">Torneo</a></li>
+        <li><a href="{% url 'partidos_jugados' 2026 2027 %}">Partidos jugados</a></li>
+        <li><a href="{% url 'buscar_torneos' 'Copa' %}">Buscar torneos</a></li>
+        <li><a href="{% url 'ultimo_resultado' 1 %}">Último resultado</a></li>
+        <li><a href="{% url 'usuarios_sin_equipo' %}">Sin equipo</a></li>
+        <li><a href="{% url 'ficha_usuario' 1 %}">Usuario</a></li>
+        <li><a href="{% url 'estadisticas_torneo' 1 %}">Estadísticas</a></li>
+        <li><a href="{% url 'inscripciones_observaciones' 'ella' %}">Inscripciones</a></li>
+        <li><a href="{% url 'ultimos_partidos_equipo' 3 %}">Partidos de un equipo</a></li>
     </ul>
 </nav>

@@ -1,0 +1,49 @@
+{% extends 'principal.html' %}
+
+{% block cabecera %}
+    <h1>{{ usuario.nombre }}</h1>
+{% endblock %}
+
+{% block contenido %}
+    <p>Correo: {{ usuario.email }}</p>
+    <p>Registrado el {{ usuario.fecha_registro|date:"d/m/Y" }}</p>
+
+    <h2>Perfil</h2>
+    <p>Teléfono: {{ usuario.perfilusuario.telefono }}</p>
+    <p>Biografía: {{ usuario.perfilusuario.biografia }}</p>
+    <p>Nivel: {{ usuario.perfilusuario.get_nivel_display }} · Valoración: {{ usuario.perfilusuario.valoracion }}</p>
+
+    <h2>Torneos organizados</h2>
+    <ul>
+    {% for t in usuario.torneos_organizados.all %}
+        <li>
+            {{ t.nombre }} ({{ t.deporte.nombre }})
+            · inicio: {{ t.fecha_inicio|date:"d/m/Y" }}
+            · sede: {{ t.sede.nombre }}
+        </li>
+    {% empty %}
+        <li>Ninguno.</li>
+    {% endfor %}
+    </ul>
+
+    <h2>Equipos capitaneados</h2>
+    <ul>
+    {% for e in usuario.equipos_capitaneados.all %}
+        <li>{{ e.nombre }} · fundado el {{ e.fecha_creacion|date:"d/m/Y" }}</li>
+    {% empty %}
+        <li>Ninguno.</li>
+    {% endfor %}
+    </ul>
+
+    <h2>Equipos de los que es miembro</h2>
+    <ul>
+    {% for e in usuario.equipos.all %}
+        <li>
+            {{ e.nombre }} · capitán: {{ e.capitan.nombre }}
+            · fundado el {{ e.fecha_creacion|date:"d/m/Y" }}
+        </li>
+    {% empty %}
+        <li>Ninguno.</li>
+    {% endfor %}
+    </ul>
+{% endblock %}

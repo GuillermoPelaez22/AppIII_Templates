@@ -1,0 +1,64 @@
+{% extends 'principal.html' %}
+
+{% block cabecera %}
+    <h1>{{ torneo.nombre }}</h1>
+{% endblock %}
+
+{% block contenido %}
+    <p>{{ torneo.descripcion }}</p>
+    <p>Formato: {{ torneo.get_formato_display }} · Inicio: {{ torneo.fecha_inicio|date:"d/m/Y" }}
+       · Máximo de participantes: {{ torneo.max_participantes }}</p>
+    <p>{% if torneo.es_publico %}Torneo público{% else %}Torneo privado{% endif %}
+       · Cuota de inscripción: {{ torneo.cuota_inscripcion }} €</p>
+    <p>Deporte: {{ torneo.deporte.nombre }}</p>
+    <p>Organizador: {{ torneo.organizador.nombre }} ({{ torneo.organizador.email }})</p>
+    <p>Sede: {{ torneo.sede.nombre }} - {{ torneo.sede.direccion }}</p>
+
+    <h3>Reglas</h3>
+    {% if torneo.reglastorneo %}
+    <p>Puntos por victoria: {{ torneo.reglastorneo.puntos_victoria }}
+       · empate: {{ torneo.reglastorneo.puntos_empate }}
+       · derrota: {{ torneo.reglastorneo.puntos_derrota }}</p>
+    <p>Normas: {{ torneo.reglastorneo.normas }}</p>
+    {% else %}
+    <p>Este torneo no tiene reglas definidas.</p>
+    {% endif %}
+
+    <h3>Equipos y miembros</h3>
+    <ul>
+    {% for e in torneo.equipos.all %}
+        <li>
+            <strong>{{ e.nombre }}</strong> · Miembros:
+            {% for m in e.miembros.all %}{{ m.nombre }}{% if not forloop.last %}, {% endif %}{% empty %}ninguno{% endfor %}
+        </li>
+    {% empty %}
+        <li>Sin equipos inscritos.</li>
+    {% endfor %}
+    </ul>
+
+    <h3>Inscripciones</h3>
+    <ul>
+    {% for i in torneo.inscripcion_set.all %}
+        <li>
+            {{ i.equipo.nombre }} ({{ i.get_estado_display }})
+            · inscrito el {{ i.fecha_inscripcion|date:"d/m/Y" }}
+            · {% if i.pagada %}pagada{% else %}pendiente de pago{% endif %}
+            · Observaciones: {{ i.observaciones }}
+        </li>
+    {% empty %}
+        <li>Sin inscripciones.</li>
+    {% endfor %}
+    </ul>
+
+    <h3>Partidos</h3>
+    <ul>
+    {% for p in torneo.partido_set.all %}
+        <li>
+            Jornada {{ p.jornada }}: {{ p.equipo_local.nombre }} vs {{ p.equipo_visitante.nombre }}
+            · {{ p.fecha_hora|date:"d/m/Y H:i" }} ({{ p.get_estado_display }})
+        </li>
+    {% empty %}
+        <li>Sin partidos.</li>
+    {% endfor %}
+    </ul>
+{% endblock %}

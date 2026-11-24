@@ -1,0 +1,39 @@
+{% extends 'principal.html' %}
+
+{% block cabecera %}
+    <h1>Estadísticas del torneo {{ torneo.nombre }}</h1>
+{% endblock %}
+
+{% block contenido %}
+    <p>{{ torneo.descripcion }}</p>
+    <p>Inicio: {{ torneo.fecha_inicio|date:"d/m/Y" }} · Formato: {{ torneo.get_formato_display }}</p>
+    <p>Deporte: {{ torneo.deporte.nombre }}</p>
+    <p>Organizador: {{ torneo.organizador.nombre }} ({{ torneo.organizador.email }})</p>
+    <p>Sede: {{ torneo.sede.nombre }}</p>
+
+    <h2>Partidos</h2>
+    <p>Total de partidos: {{ estadisticas_partidos.total }}</p>
+    <p>Primer partido: {{ estadisticas_partidos.primero|date:"d/m/Y H:i" }}</p>
+    <p>Último partido: {{ estadisticas_partidos.ultimo|date:"d/m/Y H:i" }}</p>
+
+    <h2>Resultados</h2>
+    <p>Total de resultados registrados: {{ estadisticas_resultados.total }}</p>
+
+    <h2>Inscripciones</h2>
+    <p>Total de inscripciones: {{ estadisticas_inscripciones.total }}</p>
+    <p>Primera inscripción: {{ estadisticas_inscripciones.primera|date:"d/m/Y" }}</p>
+    <p>Última inscripción: {{ estadisticas_inscripciones.ultima|date:"d/m/Y" }}</p>
+
+    <h2>Listado de equipos inscritos</h2>
+    <ul>
+    {% for i in torneo.inscripcion_set.all %}
+        <li>
+            <strong>{{ i.equipo.nombre }}</strong> ({{ i.get_estado_display }})
+            · inscrito el {{ i.fecha_inscripcion|date:"d/m/Y" }}
+            · {% if i.pagada %}pagada{% else %}pendiente de pago{% endif %}
+        </li>
+    {% empty %}
+        <li>Este torneo no tiene inscripciones.</li>
+    {% endfor %}
+    </ul>
+{% endblock %}

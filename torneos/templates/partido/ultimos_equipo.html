@@ -1,0 +1,28 @@
+{% extends 'principal.html' %}
+
+{% block cabecera %}
+    <h1>Últimos partidos de {{ equipo.nombre }}</h1>
+{% endblock %}
+
+{% block contenido %}
+    <p>Fundado el {{ equipo.fecha_creacion|date:"d/m/Y" }} · Color: {{ equipo.color }}</p>
+    <p>Capitán: {{ equipo.capitan.nombre }} ({{ equipo.capitan.email }})</p>
+    <p>Teléfono: {{ equipo.capitan.perfilusuario.telefono }}</p>
+    <p>Nivel: {{ equipo.capitan.perfilusuario.get_nivel_display }}</p>
+
+    {% for p in partidos %}
+        <h2>{{ p.equipo_local.nombre }} vs {{ p.equipo_visitante.nombre }}</h2>
+        <p>Fecha: {{ p.fecha_hora|date:"d/m/Y H:i" }} · Jornada {{ p.jornada }} ({{ p.get_estado_display }})</p>
+        <p>Resultado: {% if p.resultado %}{{ p.resultado.puntos_local }} - {{ p.resultado.puntos_visitante }}{% else %}sin resultado{% endif %}</p>
+
+        <h3>Torneo</h3>
+        <p>{{ p.torneo.nombre }} ({{ p.torneo.deporte.nombre }})</p>
+        <p>Organizador: {{ p.torneo.organizador.nombre }}</p>
+        <p>Equipos inscritos:
+            {% for e in p.torneo.equipos.all %}{{ e.nombre }}{% if not forloop.last %}, {% endif %}{% empty %}ninguno{% endfor %}
+        </p>
+        <hr>
+    {% empty %}
+        <p>Este equipo no ha jugado ningún partido.</p>
+    {% endfor %}
+{% endblock %}
