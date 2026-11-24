@@ -53,3 +53,13 @@
 
 ## Formato de fechas
 Se usa `date` con `d/m/Y` para fechas, `d/m/Y H:i` para fecha y hora, y `j \d\e F \d\e Y` (por ejemplo, "15 de marzo de 2026") en la lista de torneos. En `settings.py`: `LANGUAGE_CODE = 'es'` y `TIME_ZONE = 'Europe/Madrid'`.
+
+## Cómo probar el proyecto
+    python3 -m venv venv
+    source venv/bin/activate
+    pip install -r requirements.txt
+    python manage.py migrate
+    python manage.py loaddata datos
+    python manage.py runserver
+
+Después, abrir http://127.0.0.1:8000/

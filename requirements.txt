@@ -1,3 +1,6 @@
-Django~=5.2.8
-django-seed~=0.3.1
-faker
+asgiref==3.13.0
+Django==5.2.19
+django-seed==0.3.1
+Faker==40.54.0
+sqlparse==0.6.1
+toposort==1.10
