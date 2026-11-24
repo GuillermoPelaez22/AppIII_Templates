@@ -6,24 +6,7 @@
 
 {% block contenido %}
     {% for i in inscripciones %}
-        <h2>{{ i.equipo.nombre }} en {{ i.torneo.nombre }}</h2>
-        <p>Observaciones: {{ i.observaciones }}</p>
-        <p>Inscrito el {{ i.fecha_inscripcion|date:"d/m/Y" }} · {{ i.get_estado_display }}
-           · {% if i.pagada %}pagada{% else %}pendiente de pago{% endif %}</p>
-
-        <h3>Capitán del equipo</h3>
-        <p>{{ i.equipo.capitan.nombre }} ({{ i.equipo.capitan.email }})</p>
-        <p>Teléfono: {{ i.equipo.capitan.perfilusuario.telefono }}</p>
-        <p>Biografía: {{ i.equipo.capitan.perfilusuario.biografia }}</p>
-
-        <h3>Torneo</h3>
-        <p>{{ i.torneo.descripcion }}</p>
-        <p>Deporte: {{ i.torneo.deporte.nombre }} · inicio: {{ i.torneo.fecha_inicio|date:"d/m/Y" }}</p>
-        <p>Organizador: {{ i.torneo.organizador.nombre }}</p>
-        <p>Miembros del equipo:
-            {% for m in i.equipo.miembros.all %}{{ m.nombre }}{% if not forloop.last %}, {% endif %}{% empty %}ninguno{% endfor %}
-        </p>
-        <hr>
+        {% include 'inscripcion/inscripcion.html' %}
     {% empty %}
         <p>No hay inscripciones con ese texto en las observaciones.</p>
     {% endfor %}

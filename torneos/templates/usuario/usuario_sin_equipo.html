@@ -1,0 +1,31 @@
+{# Un usuario que no está en ningún equipo, con su perfil y su actividad #}
+<h2>{{ u.nombre|title }} ({{ u.email|lower }})</h2>
+
+<h3>Perfil</h3>
+<p>Teléfono: {{ u.perfilusuario.telefono|cut:" "|default:"Sin teléfono" }}</p>
+<p>Biografía: {{ u.perfilusuario.biografia|capfirst|linebreaksbr }}</p>
+<p>Nivel: {{ u.perfilusuario.get_nivel_display }} · Valoración: {{ u.perfilusuario.valoracion|floatformat:1 }}</p>
+
+{% if not u.equipos_capitaneados.all and not u.torneos_organizados.all %}
+    <p><strong>Usuario sin actividad todavía.</strong></p>
+{% endif %}
+
+<h3>Equipos capitaneados</h3>
+<p>{{ u.equipos_capitaneados.all|yesno:"Es capitán de algún equipo,No es capitán de ningún equipo" }}</p>
+<ul>
+{% for e in u.equipos_capitaneados.all %}
+    <li class="{% cycle 'par' 'impar' %}">{{ e.nombre }}</li>
+{% empty %}
+    <li>Ninguno.</li>
+{% endfor %}
+</ul>
+
+<h3>Torneos organizados</h3>
+<ul>
+{% for t in u.torneos_organizados.all %}
+    <li class="{% cycle 'par' 'impar' %}">{{ t.nombre }} ({{ t.fecha_inicio|date:"d/m/Y" }})</li>
+{% empty %}
+    <li>Ninguno.</li>
+{% endfor %}
+</ul>
+<hr>

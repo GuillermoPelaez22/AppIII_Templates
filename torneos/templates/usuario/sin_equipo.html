@@ -6,31 +6,7 @@
 
 {% block contenido %}
     {% for u in usuarios %}
-        <h2>{{ u.nombre }} ({{ u.email }})</h2>
-
-        <h3>Perfil</h3>
-        <p>Teléfono: {{ u.perfilusuario.telefono }}</p>
-        <p>Biografía: {{ u.perfilusuario.biografia }}</p>
-        <p>Nivel: {{ u.perfilusuario.get_nivel_display }} · Valoración: {{ u.perfilusuario.valoracion }}</p>
-
-        <h3>Equipos capitaneados</h3>
-        <ul>
-        {% for e in u.equipos_capitaneados.all %}
-            <li>{{ e.nombre }}</li>
-        {% empty %}
-            <li>Ninguno.</li>
-        {% endfor %}
-        </ul>
-
-        <h3>Torneos organizados</h3>
-        <ul>
-        {% for t in u.torneos_organizados.all %}
-            <li>{{ t.nombre }} ({{ t.fecha_inicio|date:"d/m/Y" }})</li>
-        {% empty %}
-            <li>Ninguno.</li>
-        {% endfor %}
-        </ul>
-        <hr>
+        {% include 'usuario/usuario_sin_equipo.html' %}
     {% empty %}
         <p>Todos los usuarios pertenecen a algún equipo.</p>
     {% endfor %}

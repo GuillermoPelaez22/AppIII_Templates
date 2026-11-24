@@ -1,0 +1,43 @@
+{# Un partido jugado con su resultado y los miembros de cada equipo #}
+{% with local=p.equipo_local.miembros.all visitante=p.equipo_visitante.miembros.all %}
+
+<h2>{{ p.equipo_local.nombre }} vs {{ p.equipo_visitante.nombre }}</h2>
+<p>Fecha: {{ p.fecha_hora|date:"d/m/Y" }} a las {{ p.fecha_hora|time:"H:i" }}
+   · Jornada {{ p.jornada }} ({{ p.get_estado_display }})</p>
+
+{% if p.resultado %}
+    <p>Resultado: {{ p.resultado.puntos_local }} - {{ p.resultado.puntos_visitante }}</p>
+{% endif %}
+
+{% if p.resultado and p.resultado.puntos_local > p.resultado.puntos_visitante %}
+    <p>Gana {{ p.equipo_local.nombre }}.</p>
+{% elif p.resultado and p.resultado.puntos_local < p.resultado.puntos_visitante %}
+    <p>Gana {{ p.equipo_visitante.nombre }}.</p>
+{% elif p.resultado %}
+    <p>Empate.</p>
+{% else %}
+    <p>Sin resultado.</p>
+{% endif %}
+
+<p>Torneo: {{ p.torneo.nombre|truncatechars:30 }} ({{ p.torneo.deporte.nombre }})</p>
+
+<h3>{{ p.equipo_local.nombre }}: {{ local|length }} miembro{{ local|length|pluralize }}</h3>
+<ul>
+{% for m in local %}
+    <li class="{% cycle 'par' 'impar' %}">{{ m.nombre }}</li>
+{% empty %}
+    <li>Sin miembros.</li>
+{% endfor %}
+</ul>
+
+<h3>{{ p.equipo_visitante.nombre }}: {{ visitante|length }} miembro{{ visitante|length|pluralize }}</h3>
+<ul>
+{% for m in visitante %}
+    <li class="{% cycle 'par' 'impar' %}">{{ m.nombre }}</li>
+{% empty %}
+    <li>Sin miembros.</li>
+{% endfor %}
+</ul>
+<hr>
+
+{% endwith %}

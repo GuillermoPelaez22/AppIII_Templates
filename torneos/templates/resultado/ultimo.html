@@ -6,26 +6,7 @@
 
 {% block contenido %}
     {% for r in resultados %}
-        <h2>Resultado</h2>
-        <p>{{ r.partido.equipo_local.nombre }} {{ r.puntos_local }} - {{ r.puntos_visitante }} {{ r.partido.equipo_visitante.nombre }}</p>
-        <p>{% if r.validado %}Resultado validado{% else %}Resultado sin validar{% endif %}</p>
-        <p>Comentarios: {{ r.comentarios }}</p>
-
-        <h2>Partido</h2>
-        <p>Fecha: {{ r.partido.fecha_hora|date:"d/m/Y H:i" }} · Jornada {{ r.partido.jornada }} ({{ r.partido.get_estado_display }})</p>
-
-        <h2>Torneo</h2>
-        <p>{{ r.partido.torneo.nombre }} ({{ r.partido.torneo.deporte.nombre }})</p>
-
-        <h2>Capitán local</h2>
-        <p>{{ r.partido.equipo_local.capitan.nombre }} ({{ r.partido.equipo_local.capitan.email }})</p>
-        <p>Teléfono: {{ r.partido.equipo_local.capitan.perfilusuario.telefono }}</p>
-        <p>Biografía: {{ r.partido.equipo_local.capitan.perfilusuario.biografia }}</p>
-
-        <h2>Capitán visitante</h2>
-        <p>{{ r.partido.equipo_visitante.capitan.nombre }} ({{ r.partido.equipo_visitante.capitan.email }})</p>
-        <p>Teléfono: {{ r.partido.equipo_visitante.capitan.perfilusuario.telefono }}</p>
-        <p>Biografía: {{ r.partido.equipo_visitante.capitan.perfilusuario.biografia }}</p>
+        {% include 'resultado/resultado.html' %}
     {% empty %}
         <p>Este torneo todavía no tiene resultados.</p>
     {% endfor %}

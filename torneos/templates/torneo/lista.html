@@ -6,33 +6,7 @@
 
 {% block contenido %}
     {% for t in torneos %}
-        <h2>{{ t.nombre }}</h2>
-        <p>{{ t.descripcion }}</p>
-        <p>Deporte: {{ t.deporte.nombre }} · Formato: {{ t.get_formato_display }} · Inicio: {{ t.fecha_inicio|date:"d/m/Y" }}</p>
-        <p>Organizador: {{ t.organizador.nombre }} ({{ t.organizador.email }})</p>
-        <p>Sede: {{ t.sede.nombre }} - {{ t.sede.direccion }}</p>
-
-        <h3>Equipos inscritos</h3>
-        <ul>
-        {% for e in t.equipos.all %}
-            <li>{{ e.nombre }} · capitán: {{ e.capitan.nombre }}</li>
-        {% empty %}
-            <li>Sin equipos inscritos.</li>
-        {% endfor %}
-        </ul>
-
-        <h3>Partidos</h3>
-        <ul>
-        {% for p in t.partido_set.all %}
-            <li>
-                Jornada {{ p.jornada }}: {{ p.equipo_local.nombre }} vs {{ p.equipo_visitante.nombre }}
-                · {{ p.fecha_hora|date:"d/m/Y H:i" }} ({{ p.get_estado_display }})
-            </li>
-        {% empty %}
-            <li>Sin partidos.</li>
-        {% endfor %}
-        </ul>
-        <hr>
+        {% include 'torneo/torneo.html' %}
     {% empty %}
         <p>No hay torneos.</p>
     {% endfor %}

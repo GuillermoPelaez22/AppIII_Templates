@@ -1,0 +1,56 @@
+{# Un torneo con su deporte, organizador, sede, equipos y partidos #}
+{% with equipos=t.equipos.all partidos=t.partido_set.all %}
+{% with total=equipos|length %}
+
+<h2>{{ forloop.counter }}. {{ t.nombre|upper }}</h2>
+
+{% if 'copa' in t.nombre|lower %}
+    <p><strong>Torneo de copa</strong></p>
+{% endif %}
+
+{# firstof: muestra la primera variable que tenga valor #}
+<p>{% firstof t.descripcion "Sin descripción" %}</p>
+
+<p>Deporte: {{ t.deporte.nombre|title }} · Formato: {{ t.get_formato_display }}</p>
+<p>Inicio: {{ t.fecha_inicio|date:"j \d\e F \d\e Y" }}</p>
+<p>Organizador: {{ t.organizador.nombre }} ({{ t.organizador.email|lower }})</p>
+<p>Sede: {{ t.sede.nombre }} - {{ t.sede.direccion|default:"dirección sin indicar" }}</p>
+<p>Cuota de inscripción: {{ t.cuota_inscripcion|floatformat:2 }} €</p>
+
+{% if t.cuota_inscripcion == 0 %}
+    <p><strong>Inscripción gratuita</strong></p>
+{% elif t.cuota_inscripcion >= 20 %}
+    <p><strong>Torneo de cuota alta</strong></p>
+{% else %}
+    <p><strong>Torneo de cuota normal</strong></p>
+{% endif %}
+
+<h3>{{ total }} equipo{{ total|pluralize }} inscrito{{ total|pluralize }}</h3>
+{% if total >= t.max_participantes %}
+    <p>Torneo completo.</p>
+{% elif total > 0 and t.es_publico %}
+    <p>Quedan plazas libres.</p>
+{% endif %}
+<ul>
+{% for e in equipos %}
+    <li class="{% cycle 'par' 'impar' %}">{{ e.nombre }} · capitán: {{ e.capitan.nombre }}</li>
+{% empty %}
+    <li>Sin equipos inscritos.</li>
+{% endfor %}
+</ul>
+
+<h3>Partidos</h3>
+<ul>
+{% for p in partidos %}
+    <li class="{% cycle 'par' 'impar' %}">
+        Jornada {{ p.jornada }}: {{ p.equipo_local.nombre }} vs {{ p.equipo_visitante.nombre }}
+        · {{ p.fecha_hora|date:"d/m/Y H:i" }} ({{ p.get_estado_display }})
+    </li>
+{% empty %}
+    <li>Sin partidos.</li>
+{% endfor %}
+</ul>
+<hr>
+
+{% endwith %}
+{% endwith %}

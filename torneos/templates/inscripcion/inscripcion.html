@@ -1,0 +1,27 @@
+{# Una inscripción con su equipo, su capitán y el torneo #}
+<h2>{{ i.equipo.nombre }} en {{ i.torneo.nombre }}</h2>
+
+{% if i.observaciones != '' %}
+    <p>Observaciones: {{ i.observaciones|truncatechars:60 }}</p>
+{% else %}
+    <p>Sin observaciones.</p>
+{% endif %}
+
+<p>Inscrito el {{ i.fecha_inscripcion|date:"d/m/Y" }} · {{ i.get_estado_display }}
+   · {{ i.pagada|yesno:"pagada,pendiente de pago" }}</p>
+
+{% if not i.pagada or i.observaciones == '' %}
+    <p><strong>Inscripción incompleta: falta el pago o las observaciones.</strong></p>
+{% endif %}
+
+<h3>Capitán del equipo</h3>
+<p>{{ i.equipo.capitan.nombre }} ({{ i.equipo.capitan.email|lower }})</p>
+<p>Teléfono: {{ i.equipo.capitan.perfilusuario.telefono|cut:" " }}</p>
+<p>Biografía: {{ i.equipo.capitan.perfilusuario.biografia|capfirst }}</p>
+
+<h3>Torneo</h3>
+<p>{{ i.torneo.descripcion }}</p>
+<p>Deporte: {{ i.torneo.deporte.nombre }} · inicio: {{ i.torneo.fecha_inicio|date:"d/m/Y" }}</p>
+<p>Organizador: {{ i.torneo.organizador.nombre }}</p>
+<p>Miembros del equipo: {{ i.equipo.miembros.all|join:", "|default:"ninguno" }}</p>
+<hr>

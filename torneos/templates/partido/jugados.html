@@ -6,29 +6,7 @@
 
 {% block contenido %}
     {% for p in partidos %}
-        <h2>{{ p.equipo_local.nombre }} vs {{ p.equipo_visitante.nombre }}</h2>
-        <p>Fecha: {{ p.fecha_hora|date:"d/m/Y H:i" }} · Jornada {{ p.jornada }} ({{ p.get_estado_display }})</p>
-        <p>Resultado: {% if p.resultado %}{{ p.resultado.puntos_local }} - {{ p.resultado.puntos_visitante }}{% else %}sin resultado{% endif %}</p>
-        <p>Torneo: {{ p.torneo.nombre }} ({{ p.torneo.deporte.nombre }})</p>
-
-        <h3>Miembros de {{ p.equipo_local.nombre }}</h3>
-        <ul>
-        {% for m in p.equipo_local.miembros.all %}
-            <li>{{ m.nombre }}</li>
-        {% empty %}
-            <li>Sin miembros.</li>
-        {% endfor %}
-        </ul>
-
-        <h3>Miembros de {{ p.equipo_visitante.nombre }}</h3>
-        <ul>
-        {% for m in p.equipo_visitante.miembros.all %}
-            <li>{{ m.nombre }}</li>
-        {% empty %}
-            <li>Sin miembros.</li>
-        {% endfor %}
-        </ul>
-        <hr>
+        {% include 'partido/partido_jugado.html' %}
     {% empty %}
         <p>No hay partidos jugados en ese periodo.</p>
     {% endfor %}
